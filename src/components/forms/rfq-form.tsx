@@ -75,7 +75,7 @@ export function RfqForm({ demoMode }: RfqFormProps) {
     >
       {demoMode ? (
         <p className="mb-6 border-l-2 border-[#0758ff] bg-[#f5f9ff] px-4 py-3 text-sm leading-6 text-[#31415f]">
-          Local preview mode: submissions are simulated and no information is
+          Preview mode: submissions are simulated and no information is
           sent or saved.
         </p>
       ) : null}

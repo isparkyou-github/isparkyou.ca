@@ -22,6 +22,10 @@ technical solutions.
 The default mode is `demo`. RFQ submissions display the success state but do
 not send email or save data.
 
+For a public Vercel demo, explicitly set `PUBLIC_DEMO_DEPLOYMENT=true`. This
+keeps the RFQ form in simulation mode. Remove that variable before the live
+launch.
+
 ## Quality Checks
 
 ```bash
@@ -53,7 +57,8 @@ Do not commit `.env.local`. It contains external service credentials.
 
 Connect this repository to Vercel and add the live environment variables in the
 Vercel project settings. Production deployment intentionally fails if
-`RFQ_MODE=live`, `DATABASE_URL`, or `FORMSPREE_ENDPOINT` is missing.
+`RFQ_MODE=live`, `DATABASE_URL`, or `FORMSPREE_ENDPOINT` is missing, unless an
+intentional public demo is deployed with `PUBLIC_DEMO_DEPLOYMENT=true`.
 
 Before public launch:
 
