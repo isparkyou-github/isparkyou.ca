@@ -49,6 +49,7 @@ export const rfqSchema = z.object({
     message: "Confirm that we may use this information to respond to your RFQ.",
   }),
   gotcha: z.string().max(0, "Automated submission detected."),
+  locale: z.enum(["en", "zh"]).default("en"),
 });
 
 export type RfqInput = z.infer<typeof rfqSchema>;

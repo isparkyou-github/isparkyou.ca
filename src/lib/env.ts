@@ -5,14 +5,11 @@ export function getRfqMode(): RfqMode {
 }
 
 export function getLiveRfqConfig() {
-  const databaseUrl = process.env.DATABASE_URL;
   const formspreeEndpoint = process.env.FORMSPREE_ENDPOINT;
 
-  if (!databaseUrl || !formspreeEndpoint) {
-    throw new Error(
-      "Live RFQ mode requires DATABASE_URL and FORMSPREE_ENDPOINT.",
-    );
+  if (!formspreeEndpoint) {
+    throw new Error("Live RFQ mode requires FORMSPREE_ENDPOINT.");
   }
 
-  return { databaseUrl, formspreeEndpoint };
+  return { formspreeEndpoint };
 }

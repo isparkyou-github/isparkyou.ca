@@ -2,12 +2,20 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://isparkyou.ca"),
   title: {
     default: "iSparkYou | Electrical Equipment Sourcing & Technical Solutions",
     template: "%s | iSparkYou",
   },
   description:
-    "Engineering-led electrical equipment sourcing, documentation review, compliance pathway coordination, and delivery support for North American projects.",
+    "Transformer, switchgear, and control panel supply coordination with engineering-led document review for Canadian and U.S. projects.",
+  alternates: {
+    canonical: "/",
+    languages: {
+      en: "/",
+      "zh-CN": "/zh",
+    },
+  },
 };
 
 export default function RootLayout({

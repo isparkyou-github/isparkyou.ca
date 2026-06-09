@@ -1,7 +1,5 @@
 "use server";
 
-import { createDatabase } from "@/db";
-import { rfqSubmissions } from "@/db/schema";
 import { getLiveRfqConfig, getRfqMode } from "@/lib/env";
 import { rfqSchema, type RfqInput } from "@/lib/validation/rfq";
 
@@ -52,13 +50,8 @@ function getInput(formData: FormData) {
     projectDetails: getField(formData, "projectDetails"),
     consent: getField(formData, "consent"),
     gotcha: getField(formData, "_gotcha"),
+    locale: getField(formData, "locale"),
   };
-}
-
-function getExpiryDate() {
-  const expiresAt = new Date();
-  expiresAt.setMonth(expiresAt.getMonth() + 24);
-  return expiresAt;
 }
 
 async function notifyFormspree(endpoint: string, input: RfqInput) {
@@ -83,6 +76,7 @@ async function notifyFormspree(endpoint: string, input: RfqInput) {
       certification_requirement: input.certificationRequirement,
       target_delivery_date: input.targetDeliveryDate,
       project_details: input.projectDetails,
+      language: input.locale === "zh" ? "Chinese" : "English",
     }),
   });
 
@@ -98,71 +92,54 @@ export async function submitRfq(
   const result = rfqSchema.safeParse(getInput(formData));
 
   if (!result.success) {
+    const locale = getField(formData, "locale") === "zh" ? "zh" : "en";
     return {
       status: "error",
-      message: "Please review the highlighted fields and submit the RFQ again.",
+      message:
+        locale === "zh"
+          ? "请检查标记的字段后重新提交。"
+          : "Please review the highlighted fields and submit the RFQ again.",
       errors: result.error.flatten().fieldErrors,
     };
   }
 
   const input = result.data;
+  const chinese = input.locale === "zh";
 
   if (isRateLimited(input.businessEmail.toLowerCase())) {
     return {
       status: "error",
-      message:
-        "We have received several requests from this email address. Please wait 15 minutes before submitting another RFQ.",
+      message: chinese
+        ? "此邮箱已提交多次请求，请等待15分钟后再试。"
+        : "We have received several requests from this email address. Please wait 15 minutes before submitting another RFQ.",
     };
   }
 
   if (getRfqMode() === "demo") {
     return {
       status: "success",
-      message:
-        "Demo RFQ received. This local preview did not send email or save data.",
+      message: chinese
+        ? "演示询价已接收。本次预览不会发送邮件或保存数据。"
+        : "Demo RFQ received. This preview did not send email or save data.",
     };
   }
 
   try {
-    const { databaseUrl, formspreeEndpoint } = getLiveRfqConfig();
-    const database = createDatabase(databaseUrl);
-
-    await database.insert(rfqSubmissions).values({
-      companyName: input.companyName,
-      contactName: input.contactName,
-      businessEmail: input.businessEmail,
-      phone: input.phone || null,
-      projectLocation: input.projectLocation,
-      projectStage: input.projectStage,
-      equipmentCategory: input.equipmentCategory,
-      quantity: input.quantity,
-      voltageLevel: input.voltageLevel,
-      certificationRequirement: input.certificationRequirement,
-      targetDeliveryDate: input.targetDeliveryDate,
-      projectDetails: input.projectDetails,
-      expiresAt: getExpiryDate(),
-    });
-
-    try {
-      await notifyFormspree(formspreeEndpoint, input);
-    } catch {
-      return {
-        status: "success",
-        message:
-          "Your RFQ has been received. Our email notification is delayed, but your request is recorded for follow-up.",
-      };
-    }
+    const { formspreeEndpoint } = getLiveRfqConfig();
+    await notifyFormspree(formspreeEndpoint, input);
 
     return {
       status: "success",
-      message:
-        "Your RFQ has been received. We will review the project details and follow up shortly.",
+      message: chinese
+        ? "您的询价已接收。我们将审查项目资料并尽快回复。"
+        : "Your RFQ has been received. We will review the project details and follow up shortly.",
     };
   } catch {
     return {
       status: "error",
-      message:
-        "We could not record your RFQ. Please email rfq@isparkyou.ca or try again shortly.",
+      message: chinese
+        ? "暂时无法发送询价，请发送邮件至 rfq@isparkyou.ca 或稍后重试。"
+        : "We could not send your RFQ. Please email rfq@isparkyou.ca or try again shortly.",
     };
   }
 }

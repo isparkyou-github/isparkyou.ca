@@ -1,30 +1,48 @@
 # iSparkYou Website
 
-English-first B2B website for iSparkYou electrical equipment sourcing and
-technical solutions.
+Bilingual B2B website for iSparkYou electrical equipment supply and technical
+coordination.
+
+## First-Phase Scope
+
+- English homepage at `/`
+- Chinese homepage at `/zh`
+- Transformers, switchgear, and control panels
+- Technical capabilities and target markets
+- RFQ form in demo or email mode
+- English and Chinese privacy notices
+- No customer login, file upload, or RFQ database
 
 ## Local Preview
 
-1. Install dependencies:
+```bash
+npm install
+npm run dev
+```
 
-   ```bash
-   npm install
-   ```
+Open [http://localhost:3000](http://localhost:3000). The default `demo` mode
+simulates RFQ submission without transmitting or storing form data.
 
-2. Start the local development server:
+## RFQ Modes
 
-   ```bash
-   npm run dev
-   ```
+Copy `.env.example` to `.env.local`.
 
-3. Open [http://localhost:3000](http://localhost:3000).
+Demo:
 
-The default mode is `demo`. RFQ submissions display the success state but do
-not send email or save data.
+```text
+RFQ_MODE=demo
+```
 
-For a public Vercel demo, explicitly set `PUBLIC_DEMO_DEPLOYMENT=true`. This
-keeps the RFQ form in simulation mode. Remove that variable before the live
-launch.
+Email submission:
+
+```text
+RFQ_MODE=live
+FORMSPREE_ENDPOINT=https://formspree.io/f/<form-id>
+```
+
+The Formspree endpoint is read only on the server. A production deployment
+requires live mode and `FORMSPREE_ENDPOINT`, unless
+`PUBLIC_DEMO_DEPLOYMENT=true` is explicitly set for a public preview.
 
 ## Quality Checks
 
@@ -35,36 +53,8 @@ npm run build
 npm run test:e2e
 ```
 
-## Live RFQ Setup
+## Future Phase
 
-1. Create a Supabase project in `Canada (Central) ca-central-1`.
-2. Copy `.env.example` to `.env.local`.
-3. Set `RFQ_MODE=live`.
-4. Add the Supabase PostgreSQL pooler URL as `DATABASE_URL`.
-5. Add the Formspree form URL as `FORMSPREE_ENDPOINT`.
-6. Generate the migration if the schema changes:
-
-   ```bash
-   npm run db:generate
-   ```
-
-7. Apply the SQL file in `drizzle/` through the Supabase SQL editor before
-   enabling the live form.
-
-Do not commit `.env.local`. It contains external service credentials.
-
-## Deployment
-
-Connect this repository to Vercel and add the live environment variables in the
-Vercel project settings. Production deployment intentionally fails if
-`RFQ_MODE=live`, `DATABASE_URL`, or `FORMSPREE_ENDPOINT` is missing, unless an
-intentional public demo is deployed with `PUBLIC_DEMO_DEPLOYMENT=true`.
-
-Before public launch:
-
-- Register `isparkyou.ca`.
-- Configure `rfq@isparkyou.ca` in Zoho Mail.
-- Add MX, SPF, DKIM, and DMARC DNS records.
-- Apply the Supabase migration.
-- Test one real RFQ submission and confirm both database storage and email
-  notification.
+Add Supabase PostgreSQL, Storage, RLS, RFQ numbers, file versions, quote status,
+and internal follow-up records only when the customer portal or structured RFQ
+workflow is approved.

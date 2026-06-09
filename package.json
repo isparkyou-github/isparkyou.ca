@@ -4,11 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint",
-    "typecheck": "tsc --noEmit",
-    "db:generate": "drizzle-kit generate",
+    "lint": "eslint src tests next.config.ts playwright.config.ts eslint.config.mjs",
+    "typecheck": "tsc --noEmit --incremental false",
     "test:e2e": "playwright test"
   },
   "dependencies": {

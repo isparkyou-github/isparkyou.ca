@@ -1,24 +1,22 @@
 import {
   ArrowRight,
-  BookOpenCheck,
   Boxes,
   Cable,
-  CheckCircle2,
-  ClipboardList,
+  Check,
+  CircuitBoard,
+  ClipboardCheck,
   Factory,
+  FileCheck2,
   FileSearch,
-  Gauge,
   Globe2,
+  ListChecks,
+  Map,
   PackageCheck,
   PanelsTopLeft,
-  RadioTower,
   Route,
-  Send,
   ShieldCheck,
-  TerminalSquare,
+  Sparkles,
   Wrench,
-  Zap,
-  type LucideIcon,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -26,165 +24,246 @@ import { RfqForm } from "@/components/forms/rfq-form";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ButtonLink } from "@/components/ui/button-link";
+import { siteContent, type SiteLocale } from "@/content/site";
 
-const services = [
-  {
-    title: "Equipment Sourcing",
-    text: "Source selected equipment from qualified Chinese manufacturers based on real project requirements.",
-    icon: Factory,
-  },
-  {
-    title: "Documentation Review",
-    text: "Organize and review datasheets, schematics, BOMs, terminal schedules, manuals, and FAT records.",
-    icon: FileSearch,
-  },
-  {
-    title: "Compliance Pathway Coordination",
-    text: "Clarify CSA, cUL, cETL, NRTL, or field-evaluation requirements before a formal quotation.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Delivery Support",
-    text: "Coordinate documentation, shipment readiness, spare-parts communication, and delivery follow-up.",
-    icon: PackageCheck,
-  },
+const productIcons = [Boxes, PanelsTopLeft, CircuitBoard];
+const capabilityIcons = [
+  FileSearch,
+  Cable,
+  ListChecks,
+  ClipboardCheck,
+  ShieldCheck,
+  FileCheck2,
 ];
+const marketIcons = [Map, Globe2, Factory];
+const processIcons = [ClipboardCheck, FileSearch, Route, PackageCheck];
 
-const products: [string, LucideIcon][] = [
-  ["Low-Voltage Control Panels", PanelsTopLeft],
-  ["PLC Control Enclosures", TerminalSquare],
-  ["Relay and Terminal Junction Boxes", Cable],
-  ["Energy Monitoring and Smart Metering", Gauge],
-  ["Communication Gateways", RadioTower],
-];
+export function HomeSections({
+  demoMode,
+  locale,
+}: {
+  demoMode: boolean;
+  locale: SiteLocale;
+}) {
+  const content = siteContent[locale];
 
-const workflow: [string, string, string, LucideIcon][] = [
-  ["01", "Share Your RFQ", "Provide project location, equipment requirements, target delivery date, and available documentation.", Send],
-  ["02", "Clarify Requirements", "Confirm electrical ratings, installation environment, approval expectations, and responsibility boundaries.", ClipboardList],
-  ["03", "Review Supply and Compliance Path", "Assess manufacturer documentation, product fit, and the practical approval route before quotation.", Route],
-  ["04", "Coordinate Delivery", "Track technical documentation, shipment readiness, logistics details, and project communication.", PackageCheck],
-];
-
-export function HomeSections({ demoMode }: { demoMode: boolean }) {
   return (
     <>
-      <SiteHeader />
-      <main>
+      <SiteHeader locale={locale} />
+      <main lang={locale === "zh" ? "zh-CN" : "en"}>
         <section className="relative overflow-hidden border-b border-[#d9e4f1] bg-white">
-          <div className="absolute inset-y-0 right-0 hidden w-[52%] blueprint-grid opacity-70 lg:block" />
-          <div className="relative mx-auto grid max-w-7xl items-center gap-8 px-5 py-16 md:py-20 lg:grid-cols-[0.95fr_1.05fr] lg:px-8 lg:py-24">
-            <div className="relative z-10">
-              <h1 className="max-w-3xl text-4xl font-extrabold leading-[1.08] tracking-[-0.045em] text-[#061956] sm:text-5xl lg:text-[4.25rem]">
-                Electrical Equipment Sourcing, Backed by Engineering Review.
+          <div className="absolute inset-y-0 left-0 w-[48%] blueprint-grid opacity-55" />
+          <div className="relative mx-auto grid max-w-[90rem] items-stretch lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="relative z-10 flex flex-col justify-center px-5 py-14 sm:px-8 sm:py-20 lg:px-12 lg:py-24 xl:pl-[max(3rem,calc((100vw-80rem)/2))]">
+              <h1 className="max-w-3xl text-4xl font-extrabold leading-[1.07] tracking-[-0.05em] text-[#061956] sm:text-5xl lg:text-[4rem]">
+                {content.hero.title}
               </h1>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-[#59657c] sm:text-lg">
-                We help North American customers source qualified electrical
-                equipment from selected Chinese manufacturers, with
-                documentation review, compliance pathway coordination, and
-                delivery support.
+              <div className="mt-7 h-0.5 w-24 bg-[#0758ff]" />
+              <p className="mt-6 max-w-2xl text-base leading-8 text-[#485872] sm:text-lg">
+                {content.hero.text}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <ButtonLink href="#rfq">
-                  Submit an RFQ
+                  {content.hero.primary}
                   <ArrowRight aria-hidden="true" size={16} />
                 </ButtonLink>
-                <ButtonLink href="#services" variant="secondary">
-                  Explore Our Capabilities
+                <ButtonLink href="#products" variant="secondary">
+                  {content.hero.secondary}
                 </ButtonLink>
               </div>
-              <div className="mt-10 flex flex-wrap gap-x-7 gap-y-3 border-t border-[#d9e4f1] pt-5 text-xs font-bold uppercase tracking-[0.16em] text-[#09256f]">
-                <span>Canada</span>
-                <span>United States</span>
-                <span>Qualified Supply Network</span>
+              <div className="mt-10 grid gap-5 border-t border-[#cbd9e8] pt-6 sm:grid-cols-3">
+                {content.hero.points.map(([title, text]) => (
+                  <div key={title}>
+                    <p className="text-sm font-extrabold text-[#09256f]">{title}</p>
+                    <p className="mt-1 text-xs leading-5 text-[#68758d]">{text}</p>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="relative min-h-[18rem] overflow-hidden sm:min-h-[26rem] lg:min-h-[34rem]">
+            <div className="relative min-h-[23rem] overflow-hidden border-t border-[#d9e4f1] bg-[#f6f9fd] lg:min-h-[42rem] lg:border-l lg:border-t-0">
               <Image
-                alt="Industrial low-voltage control enclosure and communication gateway"
-                className="object-cover object-center mix-blend-multiply"
+                alt={
+                  locale === "zh"
+                    ? "干式变压器、低压开关柜和工业控制柜"
+                    : "Dry-type transformer, low-voltage switchgear, and industrial control panel"
+                }
+                className="object-cover object-center"
                 fill
                 priority
-                sizes="(max-width: 1024px) 100vw, 54vw"
-                src="/images/control-panel-hero.png"
+                sizes="(max-width: 1024px) 100vw, 53vw"
+                src="/images/electrical-equipment-hero-v2.png"
               />
             </div>
           </div>
           <div className="section-rule h-2" />
         </section>
 
-        <section className="bg-white py-20 sm:py-24" id="services">
+        <section className="bg-white py-20 sm:py-24" id="products">
           <div className="mx-auto max-w-7xl px-5 lg:px-8">
-            <SectionHeading
-              label="Services"
-              text="Practical support from RFQ clarification through documentation and delivery."
-              title="Engineering-Led Support"
-            />
-            <div className="mt-12 grid gap-x-8 border-t border-[#cbd9e8] md:grid-cols-2">
-              {services.map(({ icon: Icon, text, title }) => (
-                <article
-                  className="grid grid-cols-[auto_1fr] gap-4 border-b border-[#cbd9e8] py-7 md:pr-6"
-                  key={title}
-                >
-                  <Icon aria-hidden="true" className="mt-1 text-[#0758ff]" size={24} strokeWidth={1.8} />
-                  <div>
-                    <h3 className="text-lg font-bold text-[#09256f]">{title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-[#59657c]">{text}</p>
-                  </div>
-                </article>
-              ))}
+            <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
+              <SectionHeading
+                label={content.products.label}
+                text={content.products.text}
+                title={content.products.title}
+              />
+              <div className="grid border-t border-[#b9cce2] md:grid-cols-3">
+                {content.products.items.map((product, index) => {
+                  const Icon = productIcons[index];
+                  return (
+                    <article
+                      className="border-b border-[#b9cce2] py-7 md:border-l md:px-6"
+                      key={product.title}
+                    >
+                      <Icon
+                        aria-hidden="true"
+                        className="text-[#0758ff]"
+                        size={30}
+                        strokeWidth={1.55}
+                      />
+                      <h3 className="mt-6 text-xl font-extrabold text-[#061956]">
+                        {product.title}
+                      </h3>
+                      <p className="mt-2 text-sm font-bold text-[#315078]">
+                        {product.subtitle}
+                      </p>
+                      <ul className="mt-5 space-y-3 text-sm leading-6 text-[#59657c]">
+                        {product.details.map((detail) => (
+                          <li className="flex gap-2" key={detail}>
+                            <span className="mt-2 h-1 w-1 shrink-0 bg-[#0758ff]" />
+                            <span>{detail}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </article>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="overflow-hidden bg-[#061956] py-20 text-white sm:py-24" id="products">
-          <div className="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+        <section
+          className="border-y border-[#d9e4f1] bg-[#f7faff] py-20 sm:py-24"
+          id="capabilities"
+        >
+          <div className="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-[1.08fr_0.92fr] lg:px-8">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#69a4ff]">Product Focus</p>
-              <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.035em] sm:text-4xl">
-                Start with equipment that has a clear approval path.
+              <SectionHeading
+                label={content.capabilities.label}
+                text={content.capabilities.text}
+                title={content.capabilities.title}
+              />
+              <div className="mt-10 grid border-t border-[#cbd9e8] sm:grid-cols-2">
+                {content.capabilities.items.map(([title, text], index) => {
+                  const Icon = capabilityIcons[index];
+                  return (
+                    <article
+                      className="grid grid-cols-[auto_1fr] gap-3 border-b border-[#cbd9e8] py-5 sm:pr-5"
+                      key={title}
+                    >
+                      <Icon
+                        aria-hidden="true"
+                        className="mt-0.5 text-[#0758ff]"
+                        size={21}
+                        strokeWidth={1.7}
+                      />
+                      <div>
+                        <h3 className="text-sm font-extrabold text-[#09256f]">{title}</h3>
+                        <p className="mt-1 text-xs leading-5 text-[#66738a]">{text}</p>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="blueprint-grid relative overflow-hidden border border-[#b9cce2] bg-white p-6 sm:p-8">
+              <div className="absolute right-0 top-0 h-1 w-2/3 bg-[#0758ff]" />
+              <div className="flex items-center gap-3">
+                <FileCheck2 aria-hidden="true" className="text-[#0758ff]" size={29} />
+                <h3 className="text-xl font-extrabold text-[#061956]">
+                  {content.capabilities.visualTitle}
+                </h3>
+              </div>
+              <div className="mt-8 bg-white/90">
+                {content.capabilities.visualItems.map((item, index) => (
+                  <div
+                    className="flex items-center gap-4 border-b border-[#cbd9e8] py-4"
+                    key={item}
+                  >
+                    <span className="flex h-7 w-7 items-center justify-center bg-[#eaf3ff] text-xs font-extrabold text-[#0758ff]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-sm font-bold text-[#31415f]">{item}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-9 flex items-center gap-3 border-l-2 border-[#0758ff] bg-[#f5f9ff] px-4 py-4 text-xs leading-5 text-[#53627a]">
+                <Sparkles aria-hidden="true" className="shrink-0 text-[#0758ff]" size={18} />
+                <span>
+                  {locale === "zh"
+                    ? "资料不完整并不会阻止初步沟通，但会影响报价准确性和项目进度。"
+                    : "An incomplete package does not prevent an initial discussion, but it can affect quotation accuracy and project timing."}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="overflow-hidden bg-[#061956] py-20 text-white sm:py-24" id="markets">
+          <div className="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-[0.78fr_1.22fr] lg:px-8">
+            <div>
+              <p className="section-label text-[#70a8ff]">{content.markets.label}</p>
+              <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.04em] sm:text-4xl">
+                {content.markets.title}
               </h2>
               <p className="mt-5 max-w-xl text-base leading-8 text-[#c7d8f4]">
-                The first-phase focus stays conservative: low-voltage and
-                monitoring products where documentation quality, installation
-                context, and approval expectations can be assessed early.
-              </p>
-              <p className="mt-8 border-l-2 border-[#176dff] pl-4 text-sm leading-7 text-[#d9e7ff]">
-                Medium-voltage and high-voltage equipment are considered only
-                when project-specific technical review, documentation, and
-                customer acceptance requirements are clear.
+                {content.markets.text}
               </p>
             </div>
             <div className="border-t border-[#315192]">
-              {products.map(([title, icon]) => {
-                const Icon = icon;
+              {content.markets.items.map(([title, text], index) => {
+                const Icon = marketIcons[index];
                 return (
-                  <div className="flex items-center gap-4 border-b border-[#315192] py-5" key={title}>
-                    <Icon aria-hidden="true" className="text-[#69a4ff]" size={22} strokeWidth={1.7} />
-                    <span className="text-base font-bold tracking-wide text-white sm:text-lg">{title}</span>
-                  </div>
+                  <article
+                    className="grid gap-4 border-b border-[#315192] py-6 sm:grid-cols-[auto_0.35fr_0.65fr] sm:items-start"
+                    key={title}
+                  >
+                    <Icon
+                      aria-hidden="true"
+                      className="text-[#69a4ff]"
+                      size={26}
+                      strokeWidth={1.6}
+                    />
+                    <h3 className="text-lg font-extrabold">{title}</h3>
+                    <p className="text-sm leading-7 text-[#c7d8f4]">{text}</p>
+                  </article>
                 );
               })}
             </div>
           </div>
         </section>
 
-        <section className="bg-[#f5f9ff] py-20 sm:py-24" id="workflow">
+        <section className="bg-white py-20 sm:py-24" id="process">
           <div className="mx-auto max-w-7xl px-5 lg:px-8">
             <SectionHeading
-              label="How It Works"
-              text="Each opportunity begins with project facts, approval expectations, and a defined responsibility boundary."
-              title="A Practical Project Workflow"
+              label={content.process.label}
+              title={content.process.title}
             />
-            <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-              {workflow.map(([number, title, text, icon]) => {
-                const Icon = icon;
+            <div className="mt-12 grid border-t border-[#b9cce2] md:grid-cols-2 lg:grid-cols-4">
+              {content.process.items.map(([number, title, text], index) => {
+                const Icon = processIcons[index];
                 return (
-                  <article className="border-t-2 border-[#0758ff] bg-white px-5 py-6 shadow-[0_10px_28px_rgba(9,37,111,0.06)]" key={number}>
+                  <article
+                    className="relative border-b border-[#b9cce2] py-7 md:px-6 md:first:pl-0 lg:border-l lg:first:border-l-0"
+                    key={number}
+                  >
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-extrabold tracking-[0.16em] text-[#0758ff]">{number}</span>
-                      <Icon aria-hidden="true" className="text-[#09256f]" size={20} strokeWidth={1.7} />
+                      <span className="bg-[#0758ff] px-2 py-1 text-sm font-extrabold text-white">
+                        {number}
+                      </span>
+                      <Icon aria-hidden="true" className="text-[#0758ff]" size={23} />
                     </div>
-                    <h3 className="mt-8 text-lg font-bold text-[#09256f]">{title}</h3>
+                    <h3 className="mt-7 text-xl font-extrabold text-[#061956]">{title}</h3>
                     <p className="mt-3 text-sm leading-7 text-[#59657c]">{text}</p>
                   </article>
                 );
@@ -193,38 +272,35 @@ export function HomeSections({ demoMode }: { demoMode: boolean }) {
           </div>
         </section>
 
-        <section className="bg-white py-20 sm:py-24" id="about">
-          <div className="mx-auto grid max-w-7xl items-start gap-12 px-5 lg:grid-cols-[0.86fr_1.14fr] lg:px-8">
-            <div className="blueprint-grid relative min-h-72 overflow-hidden border border-[#d9e4f1] bg-[#f9fbff] p-7">
+        <section className="border-y border-[#d9e4f1] bg-[#f7faff] py-20 sm:py-24" id="about">
+          <div className="mx-auto grid max-w-7xl items-start gap-12 px-5 lg:grid-cols-[0.72fr_1.28fr] lg:px-8">
+            <div className="blueprint-grid relative min-h-80 overflow-hidden border border-[#cbd9e8] bg-white p-7">
               <div className="absolute inset-x-0 bottom-0 h-2 section-rule" />
-              <Zap aria-hidden="true" className="text-[#0758ff]" fill="currentColor" size={42} />
-              <p className="mt-16 text-xs font-bold uppercase tracking-[0.2em] text-[#0758ff]">Engineering Perspective</p>
-              <p className="mt-3 max-w-sm text-2xl font-extrabold leading-tight tracking-[-0.035em] text-[#061956]">
-                Designed around field reality, maintainability, and clear project communication.
+              <Wrench aria-hidden="true" className="text-[#0758ff]" size={38} strokeWidth={1.6} />
+              <p className="mt-16 max-w-sm text-2xl font-extrabold leading-tight tracking-[-0.035em] text-[#061956]">
+                {locale === "zh"
+                  ? "面向现场实际、可维护性和清晰项目沟通。"
+                  : "Grounded in field reality, maintainability, and clear project communication."}
               </p>
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0758ff]">About</p>
-              <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.035em] text-[#061956] sm:text-4xl">
-                Built for Real Project Constraints
+              <p className="section-label">{content.about.label}</p>
+              <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.04em] text-[#061956] sm:text-4xl">
+                {content.about.title}
               </h2>
-              <p className="mt-5 text-lg font-bold text-[#09256f]">Senye Zhang, Founder</p>
+              <p className="mt-5 text-lg font-bold text-[#09256f]">{content.about.founder}</p>
               <p className="mt-4 max-w-3xl text-base leading-8 text-[#59657c]">
-                iSparkYou brings an engineering-led approach to electrical
-                equipment sourcing and technical coordination. The focus is
-                practical: review the documentation, clarify the installation
-                context, identify approval constraints early, and keep project
-                communication organized.
+                {content.about.text}
               </p>
-              <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                {[
-                  "Schematics, BOMs, and terminal schedules",
-                  "Terminal blocks, wire tags, and PLC I/O",
-                  "Industrial troubleshooting perspective",
-                  "Bilingual manufacturer communication",
-                ].map((item) => (
-                  <div className="flex items-start gap-2 text-sm leading-6 text-[#31415f]" key={item}>
-                    <CheckCircle2 aria-hidden="true" className="mt-1 shrink-0 text-[#0758ff]" size={16} />
+              <div className="mt-7 grid gap-4 sm:grid-cols-2">
+                {content.about.items.map((item) => (
+                  <div className="flex items-start gap-3 text-sm leading-6 text-[#31415f]" key={item}>
+                    <Check
+                      aria-hidden="true"
+                      className="mt-1 shrink-0 text-[#0758ff]"
+                      size={17}
+                      strokeWidth={2.2}
+                    />
                     <span>{item}</span>
                   </div>
                 ))}
@@ -233,31 +309,44 @@ export function HomeSections({ demoMode }: { demoMode: boolean }) {
           </div>
         </section>
 
-        <section className="border-t border-[#d9e4f1] bg-[#f5f9ff] py-20 sm:py-24" id="rfq">
-          <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[0.72fr_1.28fr] lg:px-8">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0758ff]">RFQ</p>
-              <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.035em] text-[#061956] sm:text-4xl">
-                Start with a Clear RFQ
-              </h2>
-              <p className="mt-5 text-base leading-8 text-[#59657c]">
-                Share the available project details first. We will review the
-                equipment category, technical requirements, documentation
-                needs, and likely approval path before discussing a formal
-                quotation.
-              </p>
-              <div className="mt-8 space-y-4 text-sm leading-6 text-[#31415f]">
-                <ContactLine icon={BookOpenCheck} text="Structured technical clarification" />
-                <ContactLine icon={Globe2} text="Canada and United States project context" />
-                <ContactLine icon={Wrench} text="Practical installation and documentation review" />
-                <ContactLine icon={Boxes} text="Project-based sourcing without unnecessary inventory commitments" />
+        <section className="bg-white py-20 sm:py-24" id="rfq">
+          <div className="mx-auto max-w-7xl px-5 lg:px-8">
+            <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
+              <div>
+                <SectionHeading
+                  label={content.rfq.label}
+                  text={content.rfq.text}
+                  title={content.rfq.title}
+                />
+                <div className="mt-9 border-t border-[#cbd9e8]">
+                  <h3 className="py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-[#09256f]">
+                    {content.rfq.documentsTitle}
+                  </h3>
+                  {content.rfq.documents.map((document) => (
+                    <div
+                      className="flex items-center gap-3 border-t border-[#e0e8f1] py-3 text-sm text-[#53627a]"
+                      key={document}
+                    >
+                      <span className="h-3.5 w-3.5 border border-[#8ea7c5]" />
+                      {document}
+                    </div>
+                  ))}
+                </div>
               </div>
+              <RfqForm demoMode={demoMode} locale={locale} />
             </div>
-            <RfqForm demoMode={demoMode} />
+          </div>
+        </section>
+
+        <section className="border-t border-[#cbd9e8] bg-[#eaf3ff]">
+          <div className="mx-auto grid max-w-7xl gap-5 px-5 py-8 md:grid-cols-[auto_0.28fr_0.72fr] md:items-center lg:px-8">
+            <ShieldCheck aria-hidden="true" className="text-[#0758ff]" size={36} strokeWidth={1.65} />
+            <h2 className="text-xl font-extrabold text-[#061956]">{content.boundary.title}</h2>
+            <p className="text-xs leading-6 text-[#4d5d75]">{content.boundary.text}</p>
           </div>
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter locale={locale} />
     </>
   );
 }
@@ -268,29 +357,16 @@ function SectionHeading({
   title,
 }: {
   label: string;
-  text: string;
+  text?: string;
   title: string;
 }) {
   return (
     <div className="max-w-3xl">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0758ff]">{label}</p>
-      <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.035em] text-[#061956] sm:text-4xl">{title}</h2>
-      <p className="mt-4 text-base leading-8 text-[#59657c]">{text}</p>
-    </div>
-  );
-}
-
-function ContactLine({
-  icon: Icon,
-  text,
-}: {
-  icon: typeof BookOpenCheck;
-  text: string;
-}) {
-  return (
-    <div className="flex items-start gap-3">
-      <Icon aria-hidden="true" className="mt-1 shrink-0 text-[#0758ff]" size={17} />
-      <span>{text}</span>
+      <p className="section-label">{label}</p>
+      <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.04em] text-[#061956] sm:text-4xl">
+        {title}
+      </h2>
+      {text ? <p className="mt-5 text-base leading-8 text-[#59657c]">{text}</p> : null}
     </div>
   );
 }
