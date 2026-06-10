@@ -87,7 +87,7 @@ export function HomeSections({
                     ? "干式变压器、低压开关柜和工业控制柜"
                     : "Dry-type transformer, low-voltage switchgear, and industrial control panel"
                 }
-                className="object-cover object-center"
+                className="object-contain object-center"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 53vw"
