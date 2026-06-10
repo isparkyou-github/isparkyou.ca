@@ -53,16 +53,16 @@ export function HomeSections({
       <main lang={locale === "zh" ? "zh-CN" : "en"}>
         <section className="relative overflow-hidden border-b border-[#d9e4f1] bg-white">
           <div className="absolute inset-y-0 left-0 w-[48%] blueprint-grid opacity-55" />
-          <div className="relative mx-auto grid max-w-[90rem] items-stretch lg:grid-cols-[0.95fr_1.05fr]">
-            <div className="relative z-10 flex flex-col justify-center px-5 py-14 sm:px-8 sm:py-20 lg:px-12 lg:py-24 xl:pl-[max(3rem,calc((100vw-80rem)/2))]">
-              <h1 className="max-w-3xl text-4xl font-extrabold leading-[1.07] tracking-[-0.05em] text-[#061956] sm:text-5xl lg:text-[4rem]">
+          <div className="relative mx-auto grid max-w-[90rem] items-stretch lg:grid-cols-[0.82fr_1.18fr]">
+            <div className="relative z-10 flex flex-col justify-center px-5 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-14 xl:pl-[max(3rem,calc((100vw-80rem)/2))]">
+              <h1 className="max-w-3xl text-[2.1rem] font-extrabold leading-[1.09] tracking-[-0.045em] text-[#061956] sm:text-[2.75rem] lg:text-[3.25rem]">
                 {content.hero.title}
               </h1>
-              <div className="mt-7 h-0.5 w-24 bg-[#0758ff]" />
-              <p className="mt-6 max-w-2xl text-base leading-8 text-[#485872] sm:text-lg">
+              <div className="mt-6 h-0.5 w-20 bg-[#0758ff]" />
+              <p className="mt-5 max-w-2xl text-[0.95rem] leading-7 text-[#485872] sm:text-base">
                 {content.hero.text}
               </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <ButtonLink href="#rfq">
                   {content.hero.primary}
                   <ArrowRight aria-hidden="true" size={16} />
@@ -71,7 +71,7 @@ export function HomeSections({
                   {content.hero.secondary}
                 </ButtonLink>
               </div>
-              <div className="mt-10 grid gap-5 border-t border-[#cbd9e8] pt-6 sm:grid-cols-3">
+              <div className="mt-8 grid gap-4 border-t border-[#cbd9e8] pt-5 sm:grid-cols-3">
                 {content.hero.points.map(([title, text]) => (
                   <div key={title}>
                     <p className="text-sm font-extrabold text-[#09256f]">{title}</p>
@@ -80,14 +80,14 @@ export function HomeSections({
                 ))}
               </div>
             </div>
-            <div className="blueprint-grid relative min-h-[23rem] overflow-hidden border-t border-[#d9e4f1] bg-[#f6f9fd] lg:min-h-[42rem] lg:border-l lg:border-t-0">
+            <div className="relative min-h-[18rem] overflow-hidden border-t border-[#d9e4f1] bg-[#f6f9fd] sm:min-h-[25rem] lg:min-h-[34rem] lg:border-l lg:border-t-0">
               <Image
                 alt={
                   locale === "zh"
                     ? "干式变压器、低压开关柜和工业控制柜"
                     : "Dry-type transformer, low-voltage switchgear, and industrial control panel"
                 }
-                className="object-contain object-top"
+                className="object-cover object-center"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 53vw"
