@@ -80,14 +80,14 @@ export function HomeSections({
                 ))}
               </div>
             </div>
-            <div className="relative min-h-[23rem] overflow-hidden border-t border-[#d9e4f1] bg-[#f6f9fd] lg:min-h-[42rem] lg:border-l lg:border-t-0">
+            <div className="blueprint-grid relative min-h-[23rem] overflow-hidden border-t border-[#d9e4f1] bg-[#f6f9fd] lg:min-h-[42rem] lg:border-l lg:border-t-0">
               <Image
                 alt={
                   locale === "zh"
                     ? "干式变压器、低压开关柜和工业控制柜"
                     : "Dry-type transformer, low-voltage switchgear, and industrial control panel"
                 }
-                className="object-contain object-center"
+                className="object-contain object-top"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 53vw"
